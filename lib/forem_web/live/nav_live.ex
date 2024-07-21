@@ -13,9 +13,9 @@ defmodule ForemWeb.NavLive do
 
   def render(assigns) do
     ~H"""
-    <header class="px-4 sm:px-6 lg:px-8">
-      <nav class="font-inter mx-auto h-auto w-full max-w-screen-2xl lg:relative lg:top-0">
-        <div class="flex flex-col px-6 py-6 lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-4 xl:px-20">
+    <header class="w-full border-b-4 border-black">
+      <nav class="font-inter mx-auto h-auto w-full lg:relative lg:top-0">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 sm:px-6 lg:px-8 py-6 lg:py-4">
           <div class="flex justify-between items-center lg:w-1/4">
             <a href="#"><span>LOGO</span></a>
             <a phx-click="toggle_nav" href="#" class="lg:hidden">
