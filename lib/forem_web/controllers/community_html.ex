@@ -1,6 +1,8 @@
 defmodule ForemWeb.CommunityHTML do
   use ForemWeb, :html
 
+  alias ForemWeb.RoleHelpers
+
   embed_templates "community_html/*"
 
   @doc """
@@ -8,7 +10,6 @@ defmodule ForemWeb.CommunityHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
-  # Add this line
   attr :current_user, :map, required: true
 
   def community_form(assigns)

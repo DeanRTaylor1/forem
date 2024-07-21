@@ -4,8 +4,10 @@ defmodule Forem.Accounts.User do
 
   schema "users" do
     field :email, :string
+    field :username, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
+    field :role, Ecto.Enum, values: [user: 0, moderator: 1, admin: 2], default: :user
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
 
@@ -37,9 +39,10 @@ defmodule Forem.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :username, :password, :role])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_inclusion(:role, Ecto.Enum.values(__MODULE__, :role))
   end
 
   defp validate_email(changeset, opts) do
@@ -95,7 +98,7 @@ defmodule Forem.Accounts.User do
   """
   def email_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email])
+    |> cast(attrs, [:email, :username, :role])
     |> validate_email(opts)
     |> case do
       %{changes: %{email: _}} = changeset -> changeset

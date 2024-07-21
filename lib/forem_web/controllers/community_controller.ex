@@ -3,11 +3,13 @@ defmodule ForemWeb.CommunityController do
 
   alias Forem.Communities
   alias Forem.Communities.Community
+  alias ForemWeb.RoleHelpers
+
+  plug :require_admin when action in [:new, :create, :edit, :update, :delete]
 
   def index(conn, _params) do
     communities = Communities.list_communities()
-    current_user = conn.assigns[:current_user]
-    render(conn, "index.html", communities: communities, current_user: current_user)
+    render(conn, :index, communities: communities)
   end
 
   def new(conn, _params) do
@@ -59,5 +61,18 @@ defmodule ForemWeb.CommunityController do
     conn
     |> put_flash(:info, "Community deleted successfully.")
     |> redirect(to: ~p"/communities")
+  end
+
+  defp require_admin(conn, _opts) do
+    current_user = conn.assigns[:current_user]
+
+    if RoleHelpers.is_admin(current_user) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You do not have permission to access this page.")
+      |> redirect(to: ~p"/communities")
+      |> halt()
+    end
   end
 end
