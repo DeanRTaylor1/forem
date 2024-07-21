@@ -1,8 +1,10 @@
 defmodule ForemWeb.NavLive do
   use ForemWeb, :live_view
+  import ForemWeb.Components.Icons
 
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, is_nav_open: false)}
+  def mount(_params, session, socket) do
+    current_user = Map.get(session, "current_user")
+    {:ok, assign(socket, current_user: current_user, is_nav_open: false)}
   end
 
   def handle_event("toggle_nav", _, socket) do
@@ -14,100 +16,92 @@ defmodule ForemWeb.NavLive do
     <header class="px-4 sm:px-6 lg:px-8">
       <nav class="font-inter mx-auto h-auto w-full max-w-screen-2xl lg:relative lg:top-0">
         <div class="flex flex-col px-6 py-6 lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-4 xl:px-20">
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center lg:w-1/4">
             <a href="#"><span>LOGO</span></a>
             <a phx-click="toggle_nav" href="#" class="lg:hidden">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3.75 12H20.25"
-                  stroke="#160042"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                </path>
-                <path
-                  d="M3.75 6H20.25"
-                  stroke="#160042"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                </path>
-                <path
-                  d="M3.75 18H20.25"
-                  stroke="#160042"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                </path>
-              </svg>
+              <.burger_icon />
             </a>
           </div>
-
-          <div class={[
-            "mt-4 lg:mt-0 lg:flex lg:flex-grow lg:items-center lg:justify-center",
-            if(@is_nav_open, do: "block", else: "hidden lg:flex")
-          ]}>
-            <div class="flex flex-col lg:flex-row lg:items-center">
-              <div class="lg:flex lg:space-x-4">
-                <a
-                  href="#"
-                  class="block py-2 lg:inline-block font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800"
-                >
-                  Communities
-                </a>
-                <a
-                  href="#"
-                  class="block py-2 lg:inline-block font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800"
-                >
-                  Search
-                </a>
-                <a
-                  href="#"
-                  class="block py-2 lg:inline-block font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800"
-                >
-                  About
-                </a>
-                <a
-                  href="#"
-                  class="block py-2 lg:inline-block font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800"
-                >
-                  FAQs
-                </a>
-              </div>
-              <!-- Mobile buttons (inside the toggle-able div) -->
-              <div class="mt-4 flex flex-col space-y-2 lg:hidden">
-                <a href="#" class="font-inter rounded-lg px-4 py-2 text-center hover:bg-gray-100">
-                  Sign Up
-                </a>
-                <a
-                  class="font-inter rounded-lg bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
-                  href="#"
-                >
-                  Login
-                </a>
-              </div>
+          <!-- Center links for desktop -->
+          <div class="hidden lg:flex lg:justify-center lg:items-center lg:w-1/2">
+            <div class="lg:flex lg:space-x-4">
+              <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">Communities</a>
+              <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">Search</a>
+              <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">About</a>
+              <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">FAQs</a>
             </div>
           </div>
-          <!-- Desktop buttons (outside the toggle-able div) -->
-          <div class="hidden lg:flex lg:items-center lg:space-x-3">
-            <a href="#" class="font-inter rounded-lg px-4 py-2 hover:bg-gray-100">
-              Sign Up
-            </a>
-            <a
-              class="font-inter rounded-lg bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
-              href="#"
-            >
-              Login
-            </a>
+          <!-- Authentication links for desktop -->
+          <div class="hidden lg:flex lg:items-center lg:justify-end lg:w-1/4">
+            <%= if @current_user do %>
+              <span class="text-[0.8125rem] leading-6 text-zinc-900 mr-4">
+                <%= @current_user.email %>
+              </span>
+              <a href={~p"/users/settings"} class="font-inter px-4 py-2 hover:bg-gray-100">
+                Settings
+              </a>
+              <a
+                href={~p"/users/log_out"}
+                class="font-inter bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
+                data-method="delete"
+              >
+                Log out
+              </a>
+            <% else %>
+              <a href={~p"/users/register"} class="font-inter px-4 py-2 hover:bg-gray-100">
+                Register
+              </a>
+              <a
+                href={~p"/users/log_in"}
+                class="font-inter bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
+              >
+                Log in
+              </a>
+            <% end %>
+          </div>
+          <!-- Mobile navigation -->
+          <div class={[
+            "mt-4 lg:hidden",
+            if(@is_nav_open, do: "block", else: "hidden")
+          ]}>
+            <div class="flex flex-col space-y-2">
+              <a href="#" class="block py-2 font-inter">Communities</a>
+              <a href="#" class="block py-2 font-inter">Search</a>
+              <a href="#" class="block py-2 font-inter">About</a>
+              <a href="#" class="block py-2 font-inter">FAQs</a>
+              <!-- Authentication links for mobile -->
+              <%= if @current_user do %>
+                <span class="text-[0.8125rem] leading-6 text-zinc-900">
+                  <%= @current_user.email %>
+                </span>
+                <a
+                  href={~p"/users/settings"}
+                  class="font-inter px-4 py-2 text-center hover:bg-gray-100"
+                >
+                  Settings
+                </a>
+                <a
+                  href={~p"/users/log_out"}
+                  class="font-inter bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
+                  data-method="delete"
+                >
+                  Log out
+                </a>
+              <% else %>
+                <a
+                  href={~p"/users/register"}
+                  class="font-inter px-4 py-2 text-center hover:bg-gray-100"
+                >
+                  Register
+                </a>
+                <a
+                  href={~p"/users/log_in"}
+                  class="font-inter bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
+                >
+                  Log in
+                </a>
+              <% end %>
+            </div>
           </div>
         </div>
       </nav>
