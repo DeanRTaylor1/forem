@@ -4,7 +4,7 @@
 <.header>
 
    <%= @community.name %>/forem
-  <:subtitle>This is a community record from your database.</:subtitle>
+  <:subtitle><%= @community.description %></:subtitle>
   <:actions>
   <%= if @current_user && RoleHelpers.is_admin(@current_user) do %>
     <.link href={~p"/communities/#{@community}/edit"}>
@@ -15,10 +15,6 @@
 </.header>
 
 
-<.list>
-  <:item title="Name"><%= @community.name %></:item>
-  <:item title="Description"><%= @community.description %></:item>
-</.list>
 
 
 </div>

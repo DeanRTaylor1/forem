@@ -1,0 +1,30 @@
+<.header>
+  <%= @community.name %> - Posts
+  <:actions>
+    <.link href={~p"/communities/#{@community}/posts/new"}>
+      <.button>New Post</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="posts" rows={@posts.entries} row_click={&JS.navigate(~p"/communities/#{@community}/posts/#{&1}")}>
+  <:col :let={post} label="Title"><%= post.title %></:col>
+  <:col :let={post} label="Description"><%= post.description %></:col>
+  <:action :let={post}>
+    <div class="sr-only">
+      <.link navigate={~p"/communities/#{@community}/posts/#{post}"}>Show</.link>
+    </div>
+    <%= if RoleHelpers.is_creator(@current_user, post) do %>
+      <.link navigate={~p"/communities/#{@community}/posts/#{post}/edit"}>Edit</.link>
+    <% end %>
+  </:action>
+  <:action :let={post}>
+    <%= if RoleHelpers.is_creator(@current_user, post) || RoleHelpers.is_admin(@current_user) do %>
+      <.link href={~p"/communities/#{@community}/posts/#{post}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    <% end %>
+  </:action>
+</.table>
+
+

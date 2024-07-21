@@ -9,7 +9,7 @@
   </:actions>
 </.header>
 
-<.table id="communities" rows={@communities} row_click={&JS.navigate(~p"/communities/#{&1}")}>
+<.table id="communities" rows={@communities} row_click={&JS.navigate(~p"/communities/#{&1}/posts")}>
   <:col :let={community} label="Name"><%= community.name %></:col>
   <:col :let={community} label="Description"><%= community.description %></:col>
   <:action :let={community}>

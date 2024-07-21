@@ -83,13 +83,14 @@ defmodule ForemWeb.NavLive do
                 >
                   Settings
                 </a>
-                <a
+                <.link
                   href={~p"/users/log_out"}
+                  method="delete"
                   class="font-inter bg-black px-6 py-2 text-center text-white hover:bg-gray-800"
-                  data-method="delete"
+                  data-confirm="Are you sure you want to log out?"
                 >
                   Log out
-                </a>
+                </.link>
               <% else %>
                 <a
                   href={~p"/users/register"}

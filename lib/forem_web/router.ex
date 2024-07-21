@@ -82,6 +82,8 @@ defmodule ForemWeb.Router do
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
 
-    resources "/communities", CommunityController
+    resources "/communities", CommunityController do
+      resources "/posts", PostController
+    end
   end
 end

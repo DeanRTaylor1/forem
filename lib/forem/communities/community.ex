@@ -6,6 +6,8 @@ defmodule Forem.Communities.Community do
     field :name, :string
     field :description, :string
 
+    has_many :posts, Forem.Posts.Post
+
     timestamps(type: :utc_datetime)
   end
 

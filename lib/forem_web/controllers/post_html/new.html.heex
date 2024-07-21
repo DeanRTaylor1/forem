@@ -1,0 +1,8 @@
+<.header>
+  New Post
+  <:subtitle>Use this form to manage post records in your database.</:subtitle>
+</.header>
+
+<.post_form changeset={@changeset} action={~p"/communities/#{@community}/posts"} />
+
+<.back navigate={~p"/communities/#{@community}/posts"}>Back to posts</.back>
