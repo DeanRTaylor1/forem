@@ -25,7 +25,9 @@ defmodule ForemWeb.NavLive do
           <!-- Center links for desktop -->
           <div class="hidden lg:flex lg:justify-center lg:items-center lg:w-1/2">
             <div class="lg:flex lg:space-x-4">
-              <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">Communities</a>
+              <a href="/communities" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">
+                Communities
+              </a>
               <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">Search</a>
               <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">About</a>
               <a href="#" class="font-inter lg:px-4 lg:py-2 lg:hover:text-gray-800">FAQs</a>
@@ -66,7 +68,7 @@ defmodule ForemWeb.NavLive do
             if(@is_nav_open, do: "block", else: "hidden")
           ]}>
             <div class="flex flex-col space-y-2">
-              <a href="#" class="block py-2 font-inter">Communities</a>
+              <a href="/communities" class="block py-2 font-inter">Communities</a>
               <a href="#" class="block py-2 font-inter">Search</a>
               <a href="#" class="block py-2 font-inter">About</a>
               <a href="#" class="block py-2 font-inter">FAQs</a>

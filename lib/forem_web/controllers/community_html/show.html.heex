@@ -1,16 +1,24 @@
+<div class="h-full flex flex-col gap-4">
+<.back navigate={~p"/communities"}>Back to communities</.back>
+
 <.header>
-  Community <%= @community.id %>
+
+   <%= @community.name %>/forem
   <:subtitle>This is a community record from your database.</:subtitle>
   <:actions>
+  <%= if @current_user && RoleHelpers.is_admin(@current_user) do %>
     <.link href={~p"/communities/#{@community}/edit"}>
       <.button>Edit community</.button>
     </.link>
+    <%= end %>
   </:actions>
 </.header>
+
 
 <.list>
   <:item title="Name"><%= @community.name %></:item>
   <:item title="Description"><%= @community.description %></:item>
 </.list>
 
-<.back navigate={~p"/communities"}>Back to communities</.back>
+
+</div>
