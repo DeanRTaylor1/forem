@@ -1,0 +1,16 @@
+<.header>
+  Community <%= @community.id %>
+  <:subtitle>This is a community record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/communities/#{@community}/edit"}>
+      <.button>Edit community</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @community.name %></:item>
+  <:item title="Description"><%= @community.description %></:item>
+</.list>
+
+<.back navigate={~p"/communities"}>Back to communities</.back>

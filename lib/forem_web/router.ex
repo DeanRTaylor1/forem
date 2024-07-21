@@ -81,5 +81,7 @@ defmodule ForemWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
+
+    resources "/communities", CommunityController
   end
 end
